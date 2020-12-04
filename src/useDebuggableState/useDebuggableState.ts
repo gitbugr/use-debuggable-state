@@ -58,7 +58,7 @@ export const StateChanges = {
       // setup mutable variables
       let propName = config.defaultPropName;
       let linePreview = '';
-      let capturing = 1;
+      let capturing = 1.0;
 
       // initialize SourceMapConsumer
       if (!this.initialised) {
@@ -135,7 +135,7 @@ export const StateChanges = {
 
           // If we hit useDebuggableState, then scrap the rest until
           // we hit the dispatchAction
-          if (line.match(/useDebuggableState/)) {
+          if (line.match(/at useDebuggableState/)) {
             // unless fromValue is undefined, which means we're setting the
             // initial value, the next line will be the Provider, so include that
             // by delaying the stoppage of capture
@@ -144,18 +144,19 @@ export const StateChanges = {
             } else {
               capturing = 0;
             }
-          } else {
+          } else if (capturing === 0.5) {
             // @TODO: something smart with acorn
             const propNameMatch = line.match(/\s*const\s+\[(.*),(.*)\].*/);
             if (propNameMatch !== null) {
               propName = propNameMatch[1];
+              capturing = 0;
             }
           }
 
           if (capturing <= 0) {
             stackTrace.push(ellipsis);
           }
-        } else if (line.match(/dispatchAction/)) {
+        } else if (line.match(/^at dispatchAction/)) {
           capturing = 1;
         }
       }
