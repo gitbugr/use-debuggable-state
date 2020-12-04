@@ -1,9 +1,7 @@
 {
   "name": "use-debuggable-state",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a react hook for debugging state changes",
-  "author": "gitbugr",
-  "license": "Unlicense",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "sideEffects": false,
@@ -29,11 +27,13 @@
       "pre-push": "yarn lint && yarn clean && yarn build && yarn test"
     }
   },
-  "author": "",
-  "license": "ISC",
+  "author": "gitbugr",
+  "license": "Unlicense",
   "dependencies": {
-    "react": "^17.0.1",
     "source-map": "^0.7.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
