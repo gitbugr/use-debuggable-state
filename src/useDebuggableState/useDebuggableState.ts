@@ -4,11 +4,11 @@ import { SourceMapConsumerConstructorWithInitialize } from '../types';
 
 declare const window: any;
 
-interface SourceMapConsumers {
+export interface SourceMapConsumers {
   [key: string]: SourceMapConsumer|string|boolean;
 }
 
-interface StateChange {
+export interface StateChange {
   toValue: any;
   fromValue: any;
   propName: string;
@@ -19,16 +19,27 @@ interface StateChange {
   sourceMaps: SourceMapConsumers;
 }
 
-interface Config {
+export interface Config {
   defaultPropName: string;
   esVersion: string;
   mappingsLocation: string;
 }
 
-const StateChanges = {
-  changes: [] as StateChange[],
+export interface StateChangesInterface {
+  changes: StateChange[];
+  debugging: boolean;
+  sourceMapConsumers: SourceMapConsumers;
+  initialised: boolean;
+  push(fromValue: any, toValue: any): void;
+  last(number: number): StateChange[];
+  startCapture(): void;
+  stopCapture(): void;
+}
+
+export const StateChanges = {
+  changes: [],
   debugging: false,
-  sourceMapConsumers: {} as SourceMapConsumers,
+  sourceMapConsumers: {},
   initialised: false,
   async push(fromValue: any, toValue: any) {
     if (this.debugging) {
@@ -166,7 +177,7 @@ const StateChanges = {
   stopCapture() {
     this.debugging = false;
   },
-};
+} as StateChangesInterface;
 
 export function useDebuggableState<S>(initialState: any): [S, Dispatch<SetStateAction<S>>] {
   const [state, setState] = useState(initialState);

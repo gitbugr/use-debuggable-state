@@ -1,6 +1,6 @@
 {
   "name": "use-debuggable-state",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a react hook for debugging state changes",
   "author": "gitbugr",
   "license": "Unlicense",
