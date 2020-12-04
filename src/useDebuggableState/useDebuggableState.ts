@@ -77,7 +77,8 @@ export const StateChanges = {
 
       // fix terrible stacktrace output
       const lines = change.trace.split('\n');
-      for (let line in lines.values()) {
+      for (let index in lines) {
+        let line = lines[index];
         // remove initial indentation
         line = line.replace(/^\s+/, '');
 
