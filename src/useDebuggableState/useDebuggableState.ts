@@ -77,12 +77,12 @@ export const StateChanges = {
 
       // fix terrible stacktrace output
       const lines = change.trace.split('\n');
-      for (let index in lines) {
-        let line = lines[index];
+      for (const lineIndex in lines) {
+        let line = lines[lineIndex];
         // remove initial indentation
         line = line.replace(/^\s+/, '');
 
-        if (capturing) {
+        if (capturing > 0) {
           const source = line.match(urlRegex);
           if (source) {
             // getting sourcemap location based on generated filename
@@ -111,7 +111,7 @@ export const StateChanges = {
             }
 
             const consumer = this.sourceMapConsumers[sourceMap];
-            if (consumer && consumer instanceof SourceMapConsumer) {
+            if (typeof consumer === 'object') {
               //
               const { source, line: lineNumber, column: columnNumber } = consumer.originalPositionFor({
                 line: generatedLine,
@@ -123,9 +123,9 @@ export const StateChanges = {
                 `(${source}:${lineNumber}:${columnNumber})`
               );
               if (lineNumber !== null) {
-                line += '\n|';
+                line += '\n└';
                 line += indent.repeat(1);
-                linePreview = consumer?.sourceContentFor(source || '')?.split('\n')[lineNumber - 1]?.replace(/^\s+/, '') || '';
+                linePreview = consumer.sourceContentFor(source || '')?.split('\n')[lineNumber - 1]?.replace(/^\s+/, '') || '';
                 line += linePreview;
               }
             }
@@ -152,7 +152,7 @@ export const StateChanges = {
             }
           }
 
-          if (!capturing) {
+          if (capturing <= 0) {
             stackTrace.push(ellipsis);
           }
         } else if (line.match(/dispatchAction/)) {
