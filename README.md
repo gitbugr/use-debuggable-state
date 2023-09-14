@@ -32,4 +32,16 @@
   <br />
   <br />
   <br />
+<h2>Usage</h2>
+
+Set the flag in the root file of your project.
+
+`window.reactDebugMode = true;`
+
+Replace your usages of `useState` with `useDebuggableState`
+
+In the browser dev console, dump out the stacktrace
+
+`console.log(window.reactDebug.stack)`
+
 </div>
